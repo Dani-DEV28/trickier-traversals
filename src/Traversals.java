@@ -11,7 +11,15 @@ public class Traversals {
    * @return the sum of leaf node values, or 0 if the tree is null
    */
   public static int sumLeafNodes(TreeNode<Integer> node) {
-    return 0;
+    if(node == null){
+      return 0;
+    }
+
+    if(node.right == null && node.left == null){
+      return node.value;
+    }
+
+    return sumLeafNodes(node.left) + sumLeafNodes(node.right);
   }
 
   /**
@@ -23,7 +31,15 @@ public class Traversals {
    * @return the count of internal nodes, or 0 if the tree is null
    */
   public static int countInternalNodes(TreeNode<Integer> node) {
-    return 0;
+    if(node == null){
+      return 0;
+    }
+
+    if(node.right == null && node.left == null){
+      return 0;
+    }
+
+    return countInternalNodes(node.left) + countInternalNodes(node.right) + 1;
   }
 
   /**
@@ -37,7 +53,13 @@ public class Traversals {
    * @return a post-order traversal string, or an empty string if the tree is null
    */
   public static <T> String buildPostOrderString(TreeNode<T> node) {
-    return null;
+    if(node == null){
+      return "";
+    }
+
+    String left = buildPostOrderString(node.left);
+    String right = buildPostOrderString(node.right);
+    return left + right + node.value.toString();
   }
 
   /**
@@ -49,7 +71,28 @@ public class Traversals {
    * @return a list of node values in a top-to-bottom order, or an empty list if the tree is null
    */
   public static <T> List<T> collectLevelOrderValues(TreeNode<T> node) {
-    return null;
+    List<T> result = new ArrayList<>();
+    if (node == null) {
+        return result;
+    }
+
+
+    Queue<TreeNode<T>> queue = new LinkedList<>();
+    queue.offer(node);
+
+    while (!queue.isEmpty()) {
+        TreeNode<T> current = queue.poll();
+        result.add(current.value);
+
+        if (current.left != null) {
+            queue.offer(current.left);
+        }
+        if (current.right != null) {
+            queue.offer(current.right);
+        }
+    }
+
+    return result;
   }
 
   /**
@@ -60,7 +103,27 @@ public class Traversals {
    * @return the number of unique values in the tree, or 0 if the tree is null
    */
   public static int countDistinctValues(TreeNode<Integer> node) {
-    return 0;
+    if (node == null) {
+        return 0;
+    }
+
+    Set<Integer> uniqueValues = new HashSet<>();
+    Stack<TreeNode<Integer>> stack = new Stack<>();
+    stack.push(node);
+
+    while (!stack.isEmpty()) {
+        TreeNode<Integer> current = stack.pop();
+        uniqueValues.add(current.value);
+
+        if (current.right != null) {
+            stack.push(current.right);
+        }
+        if (current.left != null) {
+            stack.push(current.left);
+        }
+    }
+
+    return uniqueValues.size();
   }
 
   /**
